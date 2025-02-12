@@ -8,8 +8,11 @@ const orderSchema = new mongoose.Schema({
   paymentMethod: { type: String, enum: ["Online Payment", "Cash On Delivery"], required: true },
   paymentId: { type: String, default: null }, // Razorpay payment ID or 'COD'
   amount: { type: String, required: true },
+  quantity: { type: Number, required: true},
   status: { type: String, enum: ["Pending", "Paid", "Delivered"], default: "Pending" },
   createdAt: { type: Date, default: Date.now },
+  deliveryDate:  { type: Date, default: Date.now },
+  DeliveryTime:{type:String}
 });
 
 module.exports = mongoose.model("Order", orderSchema);

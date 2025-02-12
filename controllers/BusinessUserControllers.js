@@ -1,5 +1,6 @@
 const BusinessUsers = require('../models/BusinessUser')
 const jwt= require('jsonwebtoken')
+const NormalUsers = require('../models/Users')
 exports.Businessregister= async(req,res)=>{
 
    
@@ -129,3 +130,62 @@ exports.BusinessRegistration = async (req, res) => {
         res.status(500).json({ message: "Server error", error });
     }
 };
+exports.pendingUsers= async (req, res) => {
+   try{
+    const pendingusers= await BusinessUsers.find({status:"Pending"})
+    res.status(200).json(pendingusers);
+   }catch(err){
+    res.status(400).json(err)
+   }
+}
+exports. approvalusers =async(req,res)=>{
+   
+    //console.log(req.params);
+    const {id}=req.params
+    
+    //console.log(req.body);
+   try{
+    const {status}=req.body
+    //console.log(status);
+    
+    const approveduser= await BusinessUsers.findByIdAndUpdate(id,{status:status},{ new: true })
+    res.status(200).json(approveduser)
+   }catch(err) {
+    res.status(400).json(err)
+   }
+   
+}
+ exports.businessusers=async(req,res)=>{
+    try{
+        const businessusers=await BusinessUsers.find({status:"approved"})
+        res.status(200).json(businessusers)
+    }catch(err){
+        res.status(400).json(err)
+    }
+ }
+ exports.userstatics=async(req,res)=>{
+    try{
+
+        const businessUsersCount = await BusinessUsers.countDocuments();
+        const normalUsersCount = await NormalUsers.countDocuments();
+     res.status(200).json({
+        businessUsers: businessUsersCount,
+        normalUsers: normalUsersCount,
+      })
+    }catch(err){
+        res.status(400).json(err)
+    }
+ }
+ exports.businessuser=async(req,res)=>{
+   
+    const userId = req.payload
+    //console.log(userId);
+    
+    try{
+    const businessUsers=await BusinessUsers.findById(userId)
+    res.status(200).json(businessUsers)
+    }catch(err){
+        res.status(406).json(err)
+    }
+
+ }

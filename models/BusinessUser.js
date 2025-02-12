@@ -51,12 +51,13 @@ const BusinessUserSchema = new mongoose.Schema({
   photo: {
     type: String,
   },
-  Location:{
-    type:String,
+  Location: {
+    type: String,
   },
-  address:{type:String,},
-  latitude:{type:String,},
-  longitude:{type:String,}
+  address: { type: String },
+  latitude: { type: String },
+  longitude: { type: String },
+  status: { type: String, required: true, default: 'Pending' },
 });
 const BusinessUsers = mongoose.model("BusinessUsers", BusinessUserSchema);
 module.exports = BusinessUsers;

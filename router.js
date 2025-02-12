@@ -6,8 +6,9 @@ const UserController = require("./controllers/BusinessUserControllers");
 const multerconfig = require("./middleware/multermiddleware");
 const Productcontrollers = require("./controllers/Productcontrollers");
 const productmulterconfig = require("./middleware/productmultermiddleware");
-const { userregister, UserLogin, saveLocation,UserDetails } = require("./controllers/UserControllers");
-const { orders,OrderDetails } = require("./controllers/OrderController");
+const { userregister, UserLogin, saveLocation,UserDetails, usersapi } = require("./controllers/UserControllers");
+const { orders,OrderDetails, getOrderDetails } = require("./controllers/OrderController");
+const { adminlogin,adminregister } = require("./controllers/Admincontroller");
 //UserControllers = require("./controllers/UserControllers");
 router.post("/business-register", UserController.Businessregister);
 
@@ -48,7 +49,10 @@ router.delete(
 
 router.post('/user-register',userregister)
 router.post('/user-login',UserLogin)
+router.post('/admin-register',adminregister)
+router.post('/admin-login',adminlogin)
 router.post('/wishlist',jwtmiddleware,Productcontrollers.addToWishlist)
+router.post('/remove-wishlist',jwtmiddleware,Productcontrollers.deletewishlist)
 router.get('/get-wishlist',jwtmiddleware,Productcontrollers.getWishlist)
 router.get('/product-detail/:id',Productcontrollers.productDetails)
 router.post('/addto-cart',jwtmiddleware,Productcontrollers.addToCart)
@@ -58,4 +62,15 @@ router.put('/save-location',jwtmiddleware,saveLocation)
 router.get('/user-details',jwtmiddleware,UserDetails)
 router.post('/orderplacement',orders)
 router.get('/business/order-details',jwtmiddleware,OrderDetails)
+router.get('/chartproducts',jwtmiddleware,Productcontrollers.chartDetails)
+router.post('/addreview/:id',Productcontrollers.addreview)
+router.get('/pendingusers',UserController.pendingUsers)
+router.put('/user-approval/:id',UserController.approvalusers)
+router.get('/business-users',UserController.businessusers)
+router.get('/admin-users',usersapi)
+router.get('/admin/user-stats',UserController.userstatics)
+router.get('/business/businessuser',jwtmiddleware,UserController.businessuser)
+router.get('/business/reviews',jwtmiddleware,Productcontrollers.productreviews)
+router.get('/user/orders',jwtmiddleware,getOrderDetails)
+router.put('/user/cartitem-incrementation',jwtmiddleware,Productcontrollers.cartitemincrement)
 module.exports = router;

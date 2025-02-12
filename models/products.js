@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema(
   {
-    Catageory:{type: String},
+    Category:{type: String},
     productName: { type: String, required: true },
     productQuantity: { type: String, required: true },
     actualPrice: { type: String, required: true },
@@ -12,8 +12,8 @@ const productSchema = new mongoose.Schema(
     images: [{ type: String }],
     reviews:[{
       name: String,
-      caption: String,
-      Rating:String,
+      comment: String,
+      rating:String,
     }],
     userId: {
       required: true,
@@ -22,13 +22,19 @@ const productSchema = new mongoose.Schema(
     username:{
       type: String,
     },
+    expectedDeliveryTime:{
+      type: String,
+    },
     location:{
       address: String,
       longitude: String,
       latitude: String
     },
     WishlistUserId:[{type:String,}],
-    CartUserId:[{type:String,}],
+    Cart:[
+      {cartuserId: String,
+      quantity:String,}
+    ],
   },
   { timestamps: true }
 );
