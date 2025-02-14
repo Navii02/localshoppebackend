@@ -209,7 +209,53 @@ exports.updateProduct = async (req, res) => {
     res.status(500).json({ message: "Internal server error", error });
   }
 };
+exports.updateProductWithoutPicture = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.payload;
+  const {
+    productName,
+    productQuantity,
+    actualPrice,
+    price,
+    expiryDate,
+    description,
+    expectedDeliveryTime,
+  } = req.body;
 
+
+  try {
+    const existingProduct = await Product.findById(id);
+    if (!existingProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      {
+        productName,
+        productQuantity,
+        actualPrice,
+        price,
+        expiryDate,
+        description,
+        expectedDeliveryTime,
+
+      
+        userId,
+      },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(500).json({ message: "Failed to update product" });
+    }
+
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    console.error("Error updating product:", error);
+    res.status(500).json({ message: "Internal server error", error });
+  }
+};
 exports.deleteProduct = async (req, res) => {
   const { id } = req.params;
   try {

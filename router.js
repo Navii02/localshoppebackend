@@ -41,6 +41,12 @@ router.put(
   productmulterconfig.array("images"),
   Productcontrollers.updateProduct
 );
+
+router.put(
+  "/update-productwithoutImg/:id",
+  jwtmiddleware,
+  Productcontrollers.updateProductWithoutPicture
+);
 router.delete(
   "/delete-product/:id",
   jwtmiddleware,
